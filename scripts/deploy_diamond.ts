@@ -34,15 +34,15 @@ async function deploy() {
       })
       
       console.log("Before Verifing Facet. Waiting for 10 seconds")
-      //await wait(10);
+      await wait(10);
       try {
-        // await hre.run("verify:verify", {
-        //   address: facet.address,
-        //   contract: `contracts/facets/${FacetName}.sol:${FacetName}`,
-        //   constructorArguments: [],
-        // });
-        //
-        // console.log("Verified Successfully FACET", FacetName);
+        await hre.run("verify:verify", {
+          address: facet.address,
+          contract: `contracts/facets/${FacetName}.sol:${FacetName}`,
+          constructorArguments: [],
+        });
+
+        console.log("Verified Successfully FACET", FacetName);
       } catch (error) {
         console.log("Verification Failed Implementation.: ", error);
       }
@@ -56,16 +56,16 @@ async function deploy() {
     const diamond = await Diamond.deploy(facetCuts, diamondArgs)
     await diamond.deployed()
     console.log("Deployed Successfully now waiting for 10 seconds so then we should do verification", diamond.address)
-    // await wait(10);
+    await wait(10);
     
     try {
-      // await hre.run("verify:verify", {
-      //   address: diamond.address,
-      //   contract: `contracts/CRCDiamond.sol:CRCDiamond`,
-      //   constructorArguments: [facetCuts, diamondArgs],
-      // });
+      await hre.run("verify:verify", {
+        address: diamond.address,
+        contract: `contracts/CRCDiamond.sol:CRCDiamond`,
+        constructorArguments: [facetCuts, diamondArgs],
+      });
       //
-      // console.log("Verified Successfully CRCDiamond",);
+      console.log("Verified Successfully CRCDiamond",);
     } catch (error) {
       console.log("Verification Failed CRCDiamond.: ", error);
     }

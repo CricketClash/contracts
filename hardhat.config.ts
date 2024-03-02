@@ -61,8 +61,19 @@ const config = {
   etherscan: {
     apiKey: {
       bscTestnet: process.env.BSCSCAN_API_KEY || "",
-      bsc: process.env.BSCSCAN_API_KEY || ""
+      bsc: process.env.BSCSCAN_API_KEY || "",
+      opBNBTestnet:"4WYQ8AW7BTSPR8STZBNEP77AKPQPYMURP3",
     },
+    customChains: [
+      {
+        network: "opBNBTestnet",
+        chainId: 5611,
+        urls: {
+          apiURL: "https://api-opbnb-testnet.bscscan.com/api",
+          browserURL: "https://opbnb-testnet.bscscan.com"
+        }
+      }
+    ]
   },
   
 };

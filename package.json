@@ -7,14 +7,7 @@
     "compile": "npx hardhat compile",
     "verify": "npx hardhat run scripts/verify.ts --network  ",
     "deploy:diamond": "npx hardhat run scripts/deploy_diamond.ts --network ",
-    "deploy:cat_token_facet": "npx hardhat run scripts/deploy_cat_token_facet.ts --network ",
-    "deploy:admin_facet": "npx hardhat run scripts/deploy_admin_facet.ts --network ",
-    "deploy:admin_wormhole_facet": "npx hardhat run scripts/deploy_admin_update_wormhole_facet.ts --network ",
-    "deploy:cat_proxy_token_facet": "npx hardhat run scripts/deploy_cat_proxy_token_facet.ts --network ",
-    "deploy:cat_nft_facet": "npx hardhat run scripts/deploy_cat_nft_facet.ts --network ",
-    "deploy:cat_proxy_nft_facet": "npx hardhat run scripts/deploy_cat_proxy_nft_facet.ts --network ",
-    "deploy:nft": "npx hardhat run scripts/deploy_nft.ts --network ",
-    "deploy:test_token": "npx hardhat run scripts/deploy_test_token.ts --network ",
+    "deploy:toss_facet": "npx hardhat run scripts/deploy_toss_facet.ts --network ",
     "test": "npx hardhat test"
   },
   "devDependencies": {

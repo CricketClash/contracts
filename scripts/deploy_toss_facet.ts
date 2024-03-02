@@ -4,7 +4,6 @@ const { getSelectors, FacetCutAction } = require('./libraries/diamond')
 
 const DeploymentConfig = require(`${__dirname}/../deployment_config.js`);
 
-const diamondAddress = '0x401c8680Da9C39C3f284b29B4518A6DaC4ef5A53'
 async function deploy() {
 
   const config = DeploymentConfig[network.name];
@@ -16,7 +15,7 @@ async function deploy() {
 
   console.log("Deploying Facet NFT with the account:", deployer.address);
   try {
-  const FacetName = 'AdminFacet'
+  const FacetName = 'TossFacet'
   
   console.log('Deploying facet => ', FacetName)
     
@@ -29,7 +28,7 @@ async function deploy() {
     const functionSelectors = getSelectors(facet);
     facetCuts.push({
       facetAddress: facet.address,
-      action: FacetCutAction.Add,
+      action: FacetCutAction.Replace,
       functionSelectors,
     })
 
@@ -41,7 +40,7 @@ async function deploy() {
     try {
       await hre.run("verify:verify", {
         address: facet.address,
-        contract: `contracts/relayer/facets/${FacetName}.sol:${FacetName}`,
+        contract: `contracts/facets/${FacetName}.sol:${FacetName}`,
         constructorArguments: [],
       });
 
@@ -54,16 +53,13 @@ async function deploy() {
 
     const DiamondFacet = await ethers.getContractFactory('DiamondCutFacet')
 
-    const diamondCutFacet  = DiamondFacet.connect(deployer).attach(diamondAddress)
+    const diamondCutFacet  = DiamondFacet.connect(deployer).attach(config.diamondAddress);
 
 
     
     const tx = await diamondCutFacet.diamondCut(facetCuts, ethers.constants.AddressZero, '0x');
     const receipt = await tx.wait();
 
-    //update finality to 200 (means instant as from discord)
-    const facetImplement = await Facet.attach(diamondAddress);
-    await facetImplement.updateFinality(200);
 
     console.log("updated Diamond with new facet Done.")
   } catch (error) {

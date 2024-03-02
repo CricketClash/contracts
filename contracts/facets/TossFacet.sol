@@ -9,6 +9,7 @@ contract TossFacet is Context {
 	enum Toss { Head, Tail }
 	uint private nonce = 0; // Nonce to ensure different results for subsequent calls
 	
+	mapping(uint256 => Toss) public tossResults;
 	// --- all contract events listed here
 	
 	// when token deployed by hot wallet/admin this event will be emitted
@@ -24,13 +25,17 @@ contract TossFacet is Context {
 	/**
 	* here user will initiate this function to get randomly tossed result.
     */
-	function initiateTokensDeployment(uint256 requestId) external {
+	function toss(uint256 requestId) external {
+		require(requestId != 0, "Invalid request id");
 		bytes32 hash = keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce));
 		uint random = uint(hash) % 2;
 		nonce++; // Increment nonce for the next call
+		Toss tossResult = random == 1 ? Toss.Head : Toss.Tail;
+	
+		tossResults[requestId] = tossResult;
 		emit Tossed(
 			requestId, // request id
-			Toss(random == 1 ? uint8(Toss.Head) : uint8(Toss.Tail))
+			tossResult
 		);
 	} // end of initiate token deployment
 	
