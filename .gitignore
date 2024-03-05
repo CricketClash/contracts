@@ -10,3 +10,7 @@ cache
 artifacts
 
 deployment_config.js
+
+
+.DS_Store
+
